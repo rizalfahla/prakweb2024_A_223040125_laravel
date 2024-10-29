@@ -17,8 +17,10 @@ Route::get('/about', function () {
 });
 
 Route::get('/posts', function () {
-    return view('posts', ['tittle' => 'Blog', 'posts' => Post::all() ]) ;
+
+    return view('posts',  ['title' => 'Blog', 'posts' => Post::filter(request(['search', 'category', 'author']))->latest()->paginate(9)->withQueryString()]);
 });
+
 
 Route::get('/posts/{post:slug}', function (Post $post){
     return view('post', ['tittle' => 'Single Post', 'post' => $post]);
