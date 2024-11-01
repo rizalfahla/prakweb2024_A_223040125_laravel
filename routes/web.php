@@ -1,10 +1,11 @@
 <?php
 
-use App\Models\Category;
+use App\Http\Controllers\RegisterController;
 use App\Models\Post;
 use App\Models\User;
-use Illuminate\Support\Arr;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LoginController;
 
 
 
@@ -38,4 +39,9 @@ Route::get('/categories/{category:slug}', function (Category $category){
 Route::get('/contact', function () {
     return view('contact',['tittle' => 'Contact'] );
 });
+
+Route::get('/login', [LoginController::class, 'index']); 
+
+
+Route::get('/register', [RegisterController::class, 'index']); 
 
