@@ -3,6 +3,9 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 
 export default {
   darkMode: 'class',
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
@@ -62,6 +65,24 @@ export default {
         '2xl': '1440px',
         '3xl': '1600px',
       },
+      spacing: {
+        '128': '32rem',
+        '144': '36rem',
+      },
+      borderRadius: {
+        'xl': '1.25rem',
+        '2xl': '1.5rem',
+      },
+      zIndex: {
+        '60': '60',
+        '70': '70',
+      },
+      maxWidth: {
+        '8xl': '90rem',
+      },
+      minWidth: {
+        '64': '16rem',
+      },
       keyframes: {
         wiggle: {
           '0%, 100%': { transform: 'rotate(-3deg)' },
@@ -78,6 +99,7 @@ export default {
     require('flowbite-typography')
   ],
   safelist: [
-    'bg-red-100', 'bg-green-100', 'bg-blue-100', 'bg-yellow-100'
+    'bg-red-100', 'bg-green-100', 'bg-blue-100', 'bg-yellow-100',
+    'text-red-500', 'text-green-500', 'hover:bg-blue-500', 'hover:text-white'
   ]
-}
+};
