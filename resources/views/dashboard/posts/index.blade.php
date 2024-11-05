@@ -1,7 +1,19 @@
 <x-layout-dashboard>
 <!-- Main Content -->
 <main class="flex-1 ml-64 bg-gray-100 p-4">
-    <h1 class="text-3xl font-bold">My Posts</h1>
+    <h1 class="text-3xl font-bold py-1">My Posts</h1>
+
+    <div class="flex justify-center">
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-2 py-1 inline-flex items-center space-x-2 mb-4" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span>{{ session('success') }}</span>
+                <button type="button" class="text-green-700 font-bold ml-2" onclick="this.parentElement.style.display='none';">
+                    &times;
+                </button>
+            </div>
+        @endif
+    </div>
     
     <!-- Table Section -->
     <div class="overflow-x-auto">

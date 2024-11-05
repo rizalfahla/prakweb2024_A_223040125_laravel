@@ -4,8 +4,8 @@
         <div class="px-4 mx-auto max-w-screen-xl">
             <article class="mx-auto w-full max-w-4xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
                 <header class="mb-4 lg:mb-6 not-format">
-                    <div class="flex items-center justify-between">
-                        <a href="/dashboard/posts" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center space-x-1">
+                    <div class="flex items-center justify-between ">
+                        <a href="/dashboard/posts" class="text-blue-600 hover:text-blue-800 font-semibold flex items-center space-x-1 pr-4">
                             <span class="text-sm">&laquo;</span>
                             <span>Back to all Posts</span>
                         </a>
