@@ -10,16 +10,20 @@
                             <span>Back to all Posts</span>
                         </a>
                         <div class="flex space-x-3">
-                            <a href="/dashboard/posts/{{ $post->slug }}/edit" 
-                                class="bg-yellow-100 text-yellow-600 hover:bg-yellow-200 hover:text-yellow-800 font-semibold px-3 py-1 rounded flex items-center space-x-2 transition-colors duration-200">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                                <span>Edit</span>
+                            <a href="/dashboard/posts/{{ $post->slug }}/edit" class="text-yellow-500 hover:text-yellow-700 flex items-center">
+                                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
+                                Edit <i class="fa-regular fa-pen-to-square"></i>
+                                </span>
                             </a>
-                            <a href="/dashboard/posts/{{ $post->slug }}" 
-                                class="bg-red-100 text-red-600 hover:bg-red-200 hover:text-red-800 font-semibold px-3 py-1 rounded flex items-center space-x-2 transition-colors duration-200">
-                                <i class="fa-regular fa-circle-xmark"></i>
-                                <span>Delete</span>
-                            </a>
+                            <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="inline" id="deleteForm{{ $post->id }}">
+                                @method('delete')
+                                @csrf
+                                <button type="button" onclick="showDeleteModal({{ $post->id }})" class="text-red-500 hover:text-red-700 flex items-center">
+                                    <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
+                                    Delete <i class="fa-regular fa-circle-xmark"></i>
+                                    </span>
+                                </button>
+                                </form>
                         </div>
                     </div>
                     

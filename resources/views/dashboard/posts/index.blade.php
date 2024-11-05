@@ -39,15 +39,30 @@
                     <td class="px-18 py-3">{{ $post->title }}</td>
                     <td class="px-12 py-3">{{ $post->category->name }}</td>
                     <td class="px-12 py-3 ">
-                        <a href="/dashboard/posts/{{ $post->slug }}" class="text-blue-500 hover:text-blue-700">
-                            <i class="fa-regular fa-eye"></i>
-                        </a>
-                        <a href="/dashboard/posts/{{ $post->slug }}" class="text-yellow-500 hover:text-yellow-700">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                        </a>
-                        <a href="/dashboard/posts/{{ $post->slug }}" class="text-red-500 hover:text-red-700">
-                            <i class="fa-regular fa-circle-xmark"></i>
-                        </a>
+                        <div class="flex items-center space-x-2">
+                                <!-- View -->
+                                <a href="/dashboard/posts/{{ $post->slug }}" class="text-blue-500 hover:text-blue-700 flex items-center">
+                                <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
+                                    View <i class="fa-regular fa-eye"></i>
+                                </span>
+                                </a>
+                                <!-- Edit -->
+                                <a href="/dashboard/posts/{{ $post->slug }}/edit" class="text-yellow-500 hover:text-yellow-700 flex items-center">
+                                <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
+                                    Edit <i class="fa-regular fa-pen-to-square"></i>
+                                </span>
+                                </a>
+                                <!-- Delete -->
+                                <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="inline" id="deleteForm{{ $post->id }}">
+                                    @method('delete')
+                                    @csrf
+                                    <button type="submit" onclick="showDeleteModal({{ $post->id }})" class="text-red-500 hover:text-red-700 flex items-center">
+                                        <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
+                                        Delete <i class="fa-regular fa-circle-xmark"></i>
+                                        </span>
+                                    </button>
+                                </form>
+                        </div>
                     </td>
                 </tr>
                 @endforeach
