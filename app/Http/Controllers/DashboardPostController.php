@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use \Cviebrock\EloquentSluggable\Services\SlugService;
 
@@ -82,32 +83,36 @@ class DashboardPostController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Post $post)
-    {
-        // Definisikan aturan validasi
-        $rules = [
-            'title' => 'required|max:255',
-            'category_id' => 'required',
-            'body' => 'required',
-        ];
-    
-        // Cek apakah slug diubah, jika ya, pastikan slug unik
-        if ($request->slug != $post->slug) {
-            $rules['slug'] = 'required|unique:posts';
-        }
-    
-        // Validasi data berdasarkan aturan yang didefinisikan
-        $validatedData = $request->validate($rules);
-    
-        // Tambahkan user_id dan excerpt untuk pembaruan data
-        $validatedData['user_id'] = Auth::id();
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
-    
-        // Update data post di database
-        $post->update($validatedData);
-    
-        // Redirect ke halaman daftar post dengan pesan sukses
-        return redirect('/dashboard/posts')->with('success', 'Post has been updated!');
+{
+    $rules = [
+        'title' => 'required|max:255',
+        'category_id' => 'required',
+        'image' => 'image|file|max:1024',
+        'body' => 'required',
+    ];
+
+    if ($request->slug != $post->slug) {
+        $rules['slug'] = 'required|unique:posts';
     }
+
+    $validatedData = $request->validate($rules);
+
+    // Proses upload gambar baru dan hapus gambar lama jika ada
+    if ($request->file('image')) {
+        if ($request->oldImage) {
+            Storage::delete($request->oldImage); // Hapus gambar lama
+        }
+        $validatedData['image'] = $request->file('image')->store('post-images');
+    }
+
+    $validatedData['author_id'] = Auth::id();
+    $validatedData['body'] = strip_tags($request->body);
+    $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+    $post->update($validatedData);
+
+    return redirect('/dashboard/posts')->with('success', 'Post has been updated!');
+}
 
     /**
      * Remove the specified resource from storage.
@@ -115,6 +120,10 @@ class DashboardPostController extends Controller
     public function destroy(Post $post)
     {
         Post::destroy($post->id);
+
+        if ($post->image) {
+            Storage::delete($post->image);
+        }
 
         return redirect('/dashboard/posts')->with('success', 'Post has been deleted!');
     

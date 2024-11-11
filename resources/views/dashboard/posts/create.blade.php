@@ -44,7 +44,8 @@
                         <!-- Image Upload Field -->
                         <div class="sm:col-span-12">
                                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                                <input type="file" id="image" name="image" class="mt-1 block  rounded-md border-gray-300 shadow-sm @error('image') border-red-500 @enderror">                                     
+                                <input type="file" id="image" name="image" class="mt-1 block  rounded-md border-gray-300 shadow-sm @error('image') border-red-500 @enderror" onchange="previewImage()">
+                                <img class="img-preview w-40 h-40 object-contain mb-3 rounded-lg col-sm-5" style="display: none;">
                                 @error('image')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
@@ -76,5 +77,16 @@
         .then(response => response.json())
         .then(data => slug.value = data.slug)
     });
+
+        function previewImage() {
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+        imgPreview.style.display = 'block';
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        };
+        }
     </script>
 </x-layout-dashboard>

@@ -12,7 +12,7 @@
                         <span>Back to all my posts</span>
                     </a>
                 </div>
-                <form action="/dashboard/posts/{{ $post->slug }}" method="POST">
+                <form action="/dashboard/posts/{{ $post->slug }}" method="POST" enctype="multipart/form-data">
                     @method('put')
                     @csrf
                     <div class="grid gap-4 sm:grid-cols-12 sm:gap-6">
@@ -42,6 +42,20 @@
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
                         </div>
+
+                        <div class="sm:col-span-12">
+                            <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                            <input type="hidden" name="oldImage" value="{{ $post->image }}">
+                            @if ($post->image)
+                            <img src="{{ asset('storage/'. $post->image) }}" class="img-preview w-40 h-40 object-contain mb-3 rounded-lg" style="display: block;">
+                            @else
+                            <img class="img-preview w-40 h-40 object-contain mb-3 rounded-lg col-sm-5" style="display: none;">
+                            @endif
+                            <input type="file" id="image" name="image" class="mt-1 block  rounded-md border-gray-300 shadow-sm @error('image') border-red-500 @enderror" onchange="previewImage()">
+                            @error('image')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <div class="sm:col-span-12">
                             <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white @error('body') border-red-500 @enderror">Body</label>
                             <input id="body" type="hidden" name="body" value="{{ old('body',  $post->body) }}">
@@ -69,5 +83,16 @@
         .then(response => response.json())
         .then(data => slug.value = data.slug)
     });
+
+    function previewImage() {
+        const image = document.querySelector('#image');
+        const imgPreview = document.querySelector('.img-preview');
+        imgPreview.style.display = 'block';
+        const oFReader = new FileReader();
+        oFReader.readAsDataURL(image.files[0]);
+        oFReader.onload = function(oFREvent) {
+            imgPreview.src = oFREvent.target.result;
+        };
+        }
     </script>
 </x-layout-dashboard>
