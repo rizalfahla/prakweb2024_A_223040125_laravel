@@ -12,7 +12,7 @@
                         <div class="flex space-x-3">
                             <a href="/dashboard/posts/{{ $post->slug }}/edit" class="text-yellow-500 hover:text-yellow-700 flex items-center">
                                 <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
-                                Edit <i class="fa-regular fa-pen-to-square"></i>
+                                    Edit <i class="fa-regular fa-pen-to-square"></i>
                                 </span>
                             </a>
                             <form action="/dashboard/posts/{{ $post->slug }}" method="post" class="inline" id="deleteForm{{ $post->id }}">
@@ -20,10 +20,10 @@
                                 @csrf
                                 <button type="button" onclick="showDeleteModal({{ $post->id }})" class="text-red-500 hover:text-red-700 flex items-center">
                                     <span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-semibold mr-1">
-                                    Delete <i class="fa-regular fa-circle-xmark"></i>
+                                        Delete <i class="fa-regular fa-circle-xmark"></i>
                                     </span>
                                 </button>
-                                </form>
+                            </form>
                         </div>
                     </div>
                     
@@ -41,6 +41,13 @@
                             </div>
                         </div>
                     </address>
+
+                    <!-- Display image below the category -->
+                    @if($post->image)
+                        <div class="mt-4 mb-6">
+                            <img src="{{ asset('storage/' . $post->image) }}" alt="{{ $post->title }}" class="w-full h-auto rounded-lg">
+                        </div>
+                    @endif
                     
                     <h1 class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{{ $post->title }}</h1>
                 </header>

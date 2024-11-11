@@ -12,7 +12,7 @@
                         <span>Back to all my posts</span>
                     </a>
                 </div>
-                <form action="/dashboard/posts" method="POST">
+                <form action="/dashboard/posts" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="grid gap-4 sm:grid-cols-12 sm:gap-6">
                         <div class="sm:col-span-12">
@@ -40,6 +40,14 @@
                             @error('category_id')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
+                        </div>
+                        <!-- Image Upload Field -->
+                        <div class="sm:col-span-12">
+                                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
+                                <input type="file" id="image" name="image" class="mt-1 block  rounded-md border-gray-300 shadow-sm @error('image') border-red-500 @enderror">                                     
+                                @error('image')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                                @enderror
                         </div>
                         <div class="sm:col-span-12">
                             <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white @error('body') border-red-500 @enderror">Body</label>
